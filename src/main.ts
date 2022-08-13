@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
-const fs = require('fs')
-const path = require('path')
+
+import { app, BrowserWindow, ipcMain } from 'electron'
+import fs from 'fs';
+import path from 'path'
+import { addFileForGit } from './utils'
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -11,22 +13,18 @@ function createWindow () {
       contextIsolation: false
     }
   })
-  win.loadURL('http://localhost:8000/')
+  win.loadURL('http://localhost:8000/preview')
 
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
-// ipcRenderer.on('async-reply',(event,arg) => {
-//   console.log(arg);
-// });
 
 ipcMain.on("readImage", (e, data) => {
-  console.log('readImage----', data)
-  fs.writeFileSync(path.resolve('../../a.markdown'),  data.content, 'utf-8')
-  
+  if(data.repo && data.name) {
+    addFileForGit(data)
+  }
 })
 
-console.log('ipcMain', ipcMain)
 
 app.whenReady().then(() => {
   createWindow()

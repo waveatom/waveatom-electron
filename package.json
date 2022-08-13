@@ -4,7 +4,9 @@
   "description": "waveatom app",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "electron": "electron dist/main.js",
+    "watch": "tsc -w",
+    "start": "concurrently \"npm run watch\" \"npm run electron\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "wangdongxu",
@@ -13,6 +15,8 @@
     "electron": "^19.0.1"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "concurrently": "^7.3.0",
+    "fs": "^0.0.1-security",
+    "typescript": "^4.7.4"
   }
 }
